@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from .views import VroomView
 from .views2 import VroomView2
 from .views_hatake import VroomView3
