@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>vroom</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row mt-2 p-3 m-1 text-white" style="background-color : #009794;">
+        <div class="col-12">
+          <span class="h4">経路表示ツール</span>
+        </div>
+      </div>
+      <div class="mx-3 mt-3">
+        <form method="POST" action="/route/view_route/" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="alert alert-info mt-3" role="alert">
+            <strong>CSVのルール</strong><br/>
+            ・csvファイルの文字コードはUTF-8にしてください。<br/>
+            ・csvファイルのサンプルはこちらにあります。(<a href="https://drive.google.com/drive/folders/1G68Y4mB3yVeboeeUm8f6k-rQ7UersM5H?usp=sharing" target="_blank">サンプル</a>)<br/>
+          </div>
+          {{ form.as_p }}
+          {% if error_msg != '' %}
+            <div class="alert alert-danger mt-3" role="alert">{{ error_msg }}</div>
+          {% endif %}
+          <!-- {% if msg != '' %}
+            <div class="alert alert-primary mt-3" role="alert">{{ msg }}</div>
+          {% endif %} -->
+          <button type="submit" class="btn btn-primary">経路表示</button>
+        </form>
+      </div>
+      <hr>
+      {% if  resultFlg %}
+      <div class="mx-3 mt-3">
+        {% for route_html in route_htmls %}
+        <hr>
+        <h4>車両「{{ route_html.0 | safe }}」の配送経路</h4>
+        <h5>配送行程</h5>
+        {{ route_html.1 | safe }}
+
+        <h5>配送経路</h5>
+        {{ route_html.2 | safe}}
+        {% endfor %}
+      </div>
+      {{ script_html | safe}}
+      {{ google_script_html | safe }}
+      {% endif %}
+      <footer class="page-footer font-small teal pt-4">
+        <div class="footer-copyright text-center py-3" style="background-color : #009794;color : white;">© 2021 Copyright:DNTI
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

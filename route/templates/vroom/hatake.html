@@ -1,0 +1,130 @@
+{% load static %}
+{% load boost %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>vroom</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <script>
+    function csv_download(num) {
+      let bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+      let blob = new Blob([bom, document.getElementById('route_csv_' + num).value], { type: "text/csv" });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      const date1 = new Date();
+      const date2 = date1.getFullYear() + '' + (date1.getMonth() + 1) + '' + date1.getDate() + "_" + date1.getHours() + date1.getMinutes() + date1.getSeconds();
+      link.download = 'route_' + (num + 1) + '_' + date2 + '.csv';
+      link.click();
+    }
+
+    function csv_download_all() {
+      var buttons = $('button[id^="button_route_csv_"]');
+      for (const button of buttons) {
+        button.click();
+      }
+    }
+
+    function csv_download2() {
+      let bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+      let blob = new Blob([bom, document.getElementById('shipments_csv').value], { type: "text/csv" });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      const date1 = new Date();
+      const date2 = date1.getFullYear() + '' + (date1.getMonth() + 1) + '' + date1.getDate() + "_" + date1.getHours() + date1.getMinutes() + date1.getSeconds();
+      link.download = 'shipments_' + date2 + '.csv';
+      link.click();
+    }
+
+  </script>
+
+  <style>
+    body {
+      font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", sans-serif;
+      line-height: 1.7;
+      color: #432;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row mt-2 p-3 m-1 text-white" style="background-color : #009794;">
+      <div class="col-12">
+        <span class="h4">最適経路算出ツール(hatake)</span>
+      </div>
+    </div>
+    <div class="mx-3 mt-3">
+      <div class="alert alert-info mt-3" role="alert">
+        <strong>注意事項</strong><br />
+        ・ファイルはエクセルでもCSVファイルでもアップ可能です。csvファイルの文字コードはUTF-8にしてください。<br />
+        ・積み下ろし時間は一律5分にしています。<br />
+        ・未配達が表示された場合は、手動で車に割り振ってください。<br />
+      </div>
+
+      <form method="POST" action="/route/hatake/" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary" name="csv">最適路計算</button>
+        {% if error_msg != '' %}
+        <div class="alert alert-danger mt-3" role="alert">{{ error_msg|safe }}</div>
+        {% endif %}
+      </form>
+    </div>
+    <hr>
+
+    {% if calc_df != '' %}
+    <div class="mx-3 mt-3">
+      <h4>経過表示</h4>
+      {{calc_df|safe}}
+    </div>
+    {% endif %}
+
+    {% if resultFlg %}
+    <div class="mx-3 mt-3">
+        <h4>荷物データ確認(最初の10レコード)</h4>
+            <textarea style="width:100%;display:none" id="shipments_csv" class="col-md-12  ml-3" rows="20">{{ shipments_csv }}</textarea>
+            <button class="btn btn-primary col-md-2 mt-2 ml-3 mb-3" data-disable-with="CSV出力" onclick="csv_download2()">CSV出力</button>
+            {{shipments_html|safe}}
+      </div>
+      <hr>
+      <div class="mx-3 mt-3">
+        <h4>サマリ</h4>
+            {{summary_df|safe}}
+      </div>
+      <hr>
+      <div class="mx-3 mt-3">
+        <h4>未配達データ</h4>
+            {{unassigned|safe}}
+      </div>
+      <hr>
+    <div class="mx-3 mt-3">
+      {% for route_html, route_csv in route_htmls|zip:route_csvs %}
+      <hr>
+      <h4>車両「{{ route_html.0 | safe }}」の配送経路</h4>
+      <h5>配送行程</h5>
+      <textarea style="width:100%;display:none" name="route_csv_{{forloop.counter0}}"
+        id="route_csv_{{forloop.counter0}}" class="col-md-12  ml-3" rows="20">{{ route_csv }}</textarea>
+      <button class="btn btn-primary col-md-2 mt-2 ml-3 mb-3" id="button_route_csv_{{forloop.counter0}}"
+        data-disable-with="CSV出力" onclick="csv_download({{forloop.counter0}})">CSV出力</button>
+      {{ route_html.2 | safe }}
+
+      <h5>配送経路</h5>
+      {{ route_html.3 | safe}}
+      {% endfor %}
+    </div>
+    {{ script_html | safe}}
+    {{ google_script_html | safe }}
+    {% endif %}
+    <footer class="page-footer font-small teal pt-4">
+      <div class="footer-copyright text-center py-3" style="background-color : #009794;color : white;">© 2021
+        Copyright:DNTI
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
