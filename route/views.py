@@ -10,6 +10,7 @@ from pandas.io.json import json_normalize
 import random
 import numpy as np
 import math
+import traceback
 
 class VroomView(TemplateView):
     def __init__(self):
@@ -238,7 +239,8 @@ class VroomView(TemplateView):
             return render(request, 'vroom/index.html', params)
         except Exception as e:
             print(e)
-            error_msg = '予期せぬエラーが発生しました。:' + str(e)
+            t = traceback.format_exc()
+            error_msg = '予期せぬエラーが発生しました。:' + str(e) + t
             params = {
                 'form': VroomForm(),
                 'resultFlg' : False,
