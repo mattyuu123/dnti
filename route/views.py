@@ -133,13 +133,12 @@ class VroomView(TemplateView):
             result = response._content.decode()
             result_json = json.loads(result)
             
+            summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
             
             if len(result_json['unassigned']) > 0:
                 unassigned = json_normalize(result_json['unassigned']).sort_values(by=['id','type'],ascending=[True,False]).reset_index().drop('index', axis=1)
-                summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
             else:
                 unassigned = pd.DataFrame(result_json['unassigned'])
-                summary_html = json_normalize(result_json).reset_index().drop('routes', axis=1).to_html(index = False, classes='table table-striped')
 
             unassigned['address'] = ''
             unassigned['company'] = ''
