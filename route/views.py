@@ -224,7 +224,7 @@ class VroomView(TemplateView):
                 'form': VroomForm(),
                 'shipments_html' : shipments_original.to_html(classes='table table-striped'),
                 'vehicles_html' : vehicles_original.to_html(classes='table table-striped'),
-                'unassigned_html' : '' # unassigned.to_html(classes='table table-striped'),
+                'unassigned_html' : '', # unassigned.to_html(classes='table table-striped'),
                 'route_htmls' : route_htmls,
                 'route_csvs' : route_csvs,
                 'summary_html' : summary_html,
