@@ -132,6 +132,8 @@ class VroomView(TemplateView):
     
             result = response._content.decode()
             result_json = json.loads(result)
+
+            print(result_json)
             
             # summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
             
