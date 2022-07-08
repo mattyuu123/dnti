@@ -1,6 +1,19 @@
 from django import forms
- 
+
 class VroomForm(forms.Form):
+    shipments_file = forms.fields.FileField(
+        label='荷物データ',
+        required=False,
+        widget=forms.widgets.FileInput
+    )
+
+    vehicles_file = forms.fields.FileField(
+        label='車両データ',
+        required=False,
+        widget=forms.widgets.FileInput
+    )
+         
+class HatakeForm(forms.Form):
     csv_file = forms.fields.FileField(
         label='CSVデータ',
         required=False,
@@ -51,13 +64,3 @@ class VroomForm2(forms.Form):
         required=True,
         widget=forms.widgets.FileInput
     )
-    
-
-class VroomForm3(forms.Form):
-    routes_file = forms.fields.FileField(
-        label='経路データ',
-        required=True,
-        widget=forms.widgets.FileInput
-    )
-    
-

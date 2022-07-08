@@ -2,9 +2,7 @@ import pandas as pd
 from django.shortcuts import render
 from django.http import HttpResponse
 from requests.api import request
-from .forms import VroomForm
-from .forms import VroomForm2
-from .forms import VroomForm3
+from .forms import HatakeForm
 from django.views.generic import TemplateView
 import requests
 import json
@@ -24,7 +22,7 @@ class VroomView3(TemplateView):
 
     def get(self, request):
         params = {
-            'form': VroomForm(),
+            'form': HatakeForm(),
             'resultFlg' : False,
             'error_msg' : '',
             'calc_df' : '',
@@ -35,7 +33,7 @@ class VroomView3(TemplateView):
     def post(self, request):
 
         try:
-            form = VroomForm(request.POST, request.FILES)
+            form = HatakeForm(request.POST, request.FILES)
             shipments = pd.DataFrame(columns=['ID','会社名','配送先住所','配送先緯度','配送先経度','金額'])
 
 
@@ -70,7 +68,7 @@ class VroomView3(TemplateView):
 
                 if error_msg != '':
                     params = {
-                        'form': VroomForm(),
+                        'form': HatakeForm(),
                         'error_msg' : error_msg,
                         'resultFlg' : False,
                         'calc_df' : '',
@@ -82,7 +80,7 @@ class VroomView3(TemplateView):
             traceback.print_exc()
             error_msg = '入力ファイルが不正です。:' + str(e)
             params = {
-                    'form': VroomForm(),
+                    'form': HatakeForm(),
                     'resultFlg' : False,
                     'error_msg' : error_msg,
                     'merge_pd' : '',
