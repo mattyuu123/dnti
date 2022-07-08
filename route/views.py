@@ -123,15 +123,6 @@ class VroomView(TemplateView):
                         }
                     return render(request, 'vroom/index.html', params)
                 print(input_json)
-
-                a = 1
-                if a == 1:
-                    params = {
-                        'form': VroomForm(),
-                        'resultFlg' : False,
-                        'error_msg' : input_json,
-                        }
-                    return render(request, 'vroom/index.html', params)
     
             headers = {
                 'Content-type': 'application/json',
