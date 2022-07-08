@@ -133,7 +133,7 @@ class VroomView(TemplateView):
             result = response._content.decode()
             result_json = json.loads(result)
             
-            summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
+            # summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
             
             # if len(result_json['unassigned']) > 0:
             #     unassigned = json_normalize(result_json['unassigned']).sort_values(by=['id','type'],ascending=[True,False]).reset_index().drop('index', axis=1)
@@ -227,7 +227,7 @@ class VroomView(TemplateView):
                 'unassigned_html' : '', # unassigned.to_html(classes='table table-striped'),
                 'route_htmls' : route_htmls,
                 'route_csvs' : route_csvs,
-                'summary_html' : summary_html,
+                'summary_html' : '',#summary_html,
                 'resultFlg' : True,
                 'script_html' : script_html,
                 'google_script_html' : google_script_html,
