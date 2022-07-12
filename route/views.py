@@ -135,26 +135,26 @@ class VroomView(TemplateView):
 
             print(result_json)
             
-            # summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
+            summary_html = json_normalize(result_json).reset_index().drop('unassigned', axis=1).drop('routes', axis=1).to_html(index = False, classes='table table-striped')
             
-            # if len(result_json['unassigned']) > 0:
-            #     unassigned = json_normalize(result_json['unassigned']).sort_values(by=['id','type'],ascending=[True,False]).reset_index().drop('index', axis=1)
-            # else:
-            #     unassigned = pd.DataFrame(result_json['unassigned'])
+            if len(result_json['unassigned']) > 0:
+                unassigned = json_normalize(result_json['unassigned']).sort_values(by=['id','type'],ascending=[True,False]).reset_index().drop('index', axis=1)
+            else:
+                unassigned = pd.DataFrame(result_json['unassigned'])
 
-            # unassigned['address'] = ''
-            # unassigned['company'] = ''
-            # if '集荷住所' in shipments.columns and '配送先住所' in shipments.columns:
-            #     for index, row in unassigned.iterrows():
-            #         if row['type'] == 'pickup':
-            #             unassigned.loc[index,'address'] = address_dict_p[int(row['id'])]
-            #         elif row['type'] == 'delivery':
-            #             unassigned.loc[index,'address'] = address_dict_d[int(row['id'])]
+            unassigned['address'] = ''
+            unassigned['company'] = ''
+            if '集荷住所' in shipments.columns and '配送先住所' in shipments.columns:
+                for index, row in unassigned.iterrows():
+                    if row['type'] == 'pickup':
+                        unassigned.loc[index,'address'] = address_dict_p[int(row['id'])]
+                    elif row['type'] == 'delivery':
+                        unassigned.loc[index,'address'] = address_dict_d[int(row['id'])]
 
-            # if '会社名' in shipments.columns:
-            #     for index, row in unassigned.iterrows():
-            #         if not np.isnan(row['id']):
-            #             unassigned.loc[index,'company'] = company_name_dict[int(row['id'])]
+            if '会社名' in shipments.columns:
+                for index, row in unassigned.iterrows():
+                    if not np.isnan(row['id']):
+                        unassigned.loc[index,'company'] = company_name_dict[int(row['id'])]
 
 
             routes = result_json['routes']
@@ -229,7 +229,7 @@ class VroomView(TemplateView):
                 'unassigned_html' : '', # unassigned.to_html(classes='table table-striped'),
                 'route_htmls' : route_htmls,
                 'route_csvs' : route_csvs,
-                'summary_html' : '',#summary_html,
+                'summary_html' : summary_html,
                 'resultFlg' : True,
                 'script_html' : script_html,
                 'google_script_html' : google_script_html,
