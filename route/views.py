@@ -112,7 +112,8 @@ class VroomView(TemplateView):
                         if index != len(shipments)-1:
                             input_json += ','
 
-                    input_json += ']}'
+                    # input_json += ']}'
+                    input_json += ']'
                 except Exception as e:
                     print(e)
                     error_msg = 'CSVファイルが不正です。:' + str(e)
