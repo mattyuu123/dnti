@@ -135,7 +135,7 @@ class VroomView(TemplateView):
                 'Content-type': 'application/json',
                 }
                 
-            response = requests.post('http://10.0.2.20:3000', headers=headers, data=input_json)
+            response = requests.post('http://10.0.2.20:3000/', headers=headers, data=input_json)
     
             result = response._content.decode()
             result_json = json.loads(result)
