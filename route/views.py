@@ -135,7 +135,8 @@ class VroomView(TemplateView):
             headers = {
                 'Content-type': 'application/json',
                 }
-                
+            
+            input_json = 'hogehoge'
             response = requests.post('http://10.0.2.20:3000/', headers=headers, data=input_json)
     
             result = response._content.decode()
