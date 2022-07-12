@@ -75,11 +75,12 @@ class VroomView(TemplateView):
                             skills.append(3)
                         input_json += ' { '
                         input_json += ' "id": {},'.format(int(vehicle['ID']))
-                        input_json += ' "starts": [ {} , {} ],'.format(vehicle['出発地経度'],vehicle['出発地緯度'])
-                        input_json += ' "ends": [ {} , {} ],'.format(vehicle['到着地経度'],vehicle['到着地緯度'])
-                        input_json += ' "time_windows": [ {},{} ],'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
-                        input_json += ' "skillss": {},'.format(skills)
-                        input_json += ' "capacitys": [ {}, {} ]'.format(vehicle['積載可能容積'],vehicle['積載可能重量'])
+                        input_json += ' "start": [ {} , {} ],'.format(vehicle['出発地経度'],vehicle['出発地緯度'])
+                        input_json += ' "end": [ {} , {} ],'.format(vehicle['到着地経度'],vehicle['到着地緯度'])
+                        input_json += ' "time_window": [ {},{} ]'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
+                        # input_json += ' "time_window": [ {},{} ],'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
+                        # input_json += ' "skills": {},'.format(skills)
+                        # input_json += ' "capacity": [ {}, {} ]'.format(vehicle['積載可能容積'],vehicle['積載可能重量'])
                         input_json += ' }'
                         if index != len(vehicles)-1:
                             input_json += ','
@@ -96,17 +97,17 @@ class VroomView(TemplateView):
                         if shipment['スキル(冷蔵)'] > 0.5:
                             skills.append(3)
                         input_json += ' { '
-                        input_json += ' "amount": [ {}, {} ],'.format(shipment['容積'],shipment['重さ'])
-                        input_json += ' "skills": {},'.format(skills)
+                        # input_json += ' "amount": [ {}, {} ],'.format(shipment['容積'],shipment['重さ'])
+                        # input_json += ' "skills": {},'.format(skills)
                         if shipment['集荷可能時間帯②(開始)'] == 0 and shipment['集荷可能時間帯②(終了)'] == 0:
-                            input_json += ' "pickup": {{ "ids": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {}]] }},'.format(int(shipment['ID']),shipment['積上時間(分)']*60,shipment['集荷経度'],shipment['集荷緯度'],shipment['集荷可能時間帯①(開始)'],shipment['集荷可能時間帯①(終了)'])
+                            input_json += ' "pickup": {{ "id": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {}]] }},'.format(int(shipment['ID']),shipment['積上時間(分)']*60,shipment['集荷経度'],shipment['集荷緯度'],shipment['集荷可能時間帯①(開始)'],shipment['集荷可能時間帯①(終了)'])
                         else:
-                            input_json += ' "pickup": {{ "ids": {} , "services": {}, "location": [ {} , {} ], "time_windows": [[ {}, {},{}, {} ]] }},'.format(int(shipment['ID']),shipment['積上時間(分)']*60,shipment['集荷経度'],shipment['集荷緯度'],shipment['集荷可能時間帯①(開始)'],shipment['集荷可能時間帯①(終了)'],shipment['集荷可能時間帯②(開始)'],shipment['集荷可能時間帯②(終了)'])
+                            input_json += ' "pickup": {{ "id": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {},{}, {} ]] }},'.format(int(shipment['ID']),shipment['積上時間(分)']*60,shipment['集荷経度'],shipment['集荷緯度'],shipment['集荷可能時間帯①(開始)'],shipment['集荷可能時間帯①(終了)'],shipment['集荷可能時間帯②(開始)'],shipment['集荷可能時間帯②(終了)'])
                             
                         if shipment['配送可能時間帯②(開始)'] == 0 and shipment['配送可能時間帯②(終了)'] == 0:
-                            input_json += ' "delivery": {{ "id": {} , "services": {}, "location": [ {} , {} ], "time_windows": [[ {}, {}]] }}'.format(int(shipment['ID']),shipment['積下時間(分)']*60,shipment['配送先経度'],shipment['配送先緯度'],shipment['配送可能時間帯①(開始)'],shipment['配送可能時間帯①(終了)'])
+                            input_json += ' "delivery": {{ "id": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {}]] }}'.format(int(shipment['ID']),shipment['積下時間(分)']*60,shipment['配送先経度'],shipment['配送先緯度'],shipment['配送可能時間帯①(開始)'],shipment['配送可能時間帯①(終了)'])
                         else:
-                            input_json += ' "delivery": {{ "id": {} , "services": {}, "location": [ {} , {} ], "time_windows": [[ {}, {},{}, {} ]] }}'.format(int(shipment['ID']),shipment['積下時間(分)']*60,shipment['配送先経度'],shipment['配送先緯度'],shipment['配送可能時間帯①(開始)'],shipment['配送可能時間帯①(終了)'],shipment['配送可能時間帯②(開始)'],shipment['配送可能時間帯②(終了)'])
+                            input_json += ' "delivery": {{ "id": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {},{}, {} ]] }}'.format(int(shipment['ID']),shipment['積下時間(分)']*60,shipment['配送先経度'],shipment['配送先緯度'],shipment['配送可能時間帯①(開始)'],shipment['配送可能時間帯①(終了)'],shipment['配送可能時間帯②(開始)'],shipment['配送可能時間帯②(終了)'])
                         input_json += ' }'
                         
                         if index != len(shipments)-1:
