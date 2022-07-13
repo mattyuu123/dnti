@@ -78,9 +78,9 @@ class VroomView(TemplateView):
                         input_json += ' "start": [ {} , {} ],'.format(vehicle['出発地経度'],vehicle['出発地緯度'])
                         input_json += ' "end": [ {} , {} ],'.format(vehicle['到着地経度'],vehicle['到着地緯度'])
                         input_json += ' "time_window": [ {},{} ]'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
-                        # input_json += ' "time_window": [ {},{} ],'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
-                        # input_json += ' "skills": {},'.format(skills)
-                        # input_json += ' "capacity": [ {}, {} ]'.format(vehicle['積載可能容積'],vehicle['積載可能重量'])
+                        input_json += ' "time_window": [ {},{} ],'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
+                        input_json += ' "skills": {},'.format(skills)
+                        input_json += ' "capacity": [ {}, {} ]'.format(vehicle['積載可能容積'],vehicle['積載可能重量'])
                         input_json += ' }'
                         if index != len(vehicles)-1:
                             input_json += ','
@@ -97,8 +97,8 @@ class VroomView(TemplateView):
                         if shipment['スキル(冷蔵)'] > 0.5:
                             skills.append(3)
                         input_json += ' { '
-                        # input_json += ' "amount": [ {}, {} ],'.format(shipment['容積'],shipment['重さ'])
-                        # input_json += ' "skills": {},'.format(skills)
+                        input_json += ' "amount": [ {}, {} ],'.format(shipment['容積'],shipment['重さ'])
+                        input_json += ' "skills": {},'.format(skills)
                         if shipment['集荷可能時間帯②(開始)'] == 0 and shipment['集荷可能時間帯②(終了)'] == 0:
                             input_json += ' "pickup": {{ "id": {} , "service": {}, "location": [ {} , {} ], "time_windows": [[ {}, {}]] }},'.format(int(shipment['ID']),shipment['積上時間(分)']*60,shipment['集荷経度'],shipment['集荷緯度'],shipment['集荷可能時間帯①(開始)'],shipment['集荷可能時間帯①(終了)'])
                         else:
@@ -130,13 +130,13 @@ class VroomView(TemplateView):
                 #     'error_msg' : input_json,
                 #     }
                 # return render(request, 'vroom/index.html', params)
+                input_json = '{"vehicles": [{"id": 1,"start": [139.7133228,35.6742412],"end": [139.7399303,35.668419]}],"shipments": [{"pickup": {"id": 100,"service": 60,"location": [139.766084,35.681382]},"delivery": {"id": 100,"service": 60,"location": [139.733444,35.636446]}},{"pickup": {"id": 200,"service": 120,"location": [139.763328,35.675069]},"delivery": {"id": 200,"service": 120,"location": [139.710258,35.700921]}}]}'
                 print(input_json)
     
             headers = {
                 'Content-type': 'application/json',
                 }
             
-            input_json = 'hogehoge'
             response = requests.post('http://10.0.2.20:3000/', headers=headers, data=input_json)
     
             result = response._content.decode()
