@@ -77,7 +77,6 @@ class VroomView(TemplateView):
                         input_json += ' "id": {},'.format(int(vehicle['ID']))
                         input_json += ' "start": [ {} , {} ],'.format(vehicle['出発地経度'],vehicle['出発地緯度'])
                         input_json += ' "end": [ {} , {} ],'.format(vehicle['到着地経度'],vehicle['到着地緯度'])
-                        input_json += ' "time_window": [ {},{} ]'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
                         input_json += ' "time_window": [ {},{} ],'.format(vehicle['稼働時間(開始)'],vehicle['稼働時間(終了)'])
                         input_json += ' "skills": {},'.format(skills)
                         input_json += ' "capacity": [ {}, {} ]'.format(vehicle['積載可能容積'],vehicle['積載可能重量'])
