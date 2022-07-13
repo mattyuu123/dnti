@@ -136,7 +136,7 @@ class VroomView(TemplateView):
                 'Content-type': 'application/json',
                 }
             
-            response = requests.post('http://10.0.2.20:5000/route/v1/driving/', headers=headers, data=input_json)
+            response = requests.post('http://10.0.2.20:5000/route/', headers=headers, data=input_json)
             # response = requests.get('http://10.0.2.20:5000/route/v1/driving/139.733444,35.636446;139.733444,35.636446')
             result = response._content.decode()
             result_json = json.loads(result)
