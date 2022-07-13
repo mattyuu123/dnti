@@ -130,7 +130,7 @@ class VroomView(TemplateView):
                 #     'error_msg' : input_json,
                 #     }
                 # return render(request, 'vroom/index.html', params)
-                input_json = '{"vehicles": [{"id": 1,"start": [139.7133228,35.6742412],"end": [139.7399303,35.668419]}],"shipments": [{"pickup": {"id": 100,"service": 60,"location": [139.766084,35.681382]},"delivery": {"id": 100,"service": 60,"location": [139.733444,35.636446]}},{"pickup": {"id": 200,"service": 120,"location": [139.763328,35.675069]},"delivery": {"id": 200,"service": 120,"location": [139.710258,35.700921]}}]}'
+                input_json = '{"jobs": [{"id": 1613,"service": 1200,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 1665,"service": 1200,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 21234,"service": 900,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 23457,"service": 600,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 24145,"service": 900,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 33007,"service": 900,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 38081,"service": 600,"amount": [1],"location": [139.7133228,35.6742412]},{"id": 39163,"service": 900,"amount": [1],"location": [139.7133228,35.6742412]}],"vehicles": [{"id": 7,"start": [139.7133228,35.6742412],"end": [139.7133228,35.6742412],"capacity": [25],"time_window": [30600,61200],"startDescription": "Start","endDescription": "End"}],"options": {"g": true}}'
                 print(input_json)
     
             headers = {
