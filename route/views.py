@@ -124,13 +124,12 @@ class VroomView(TemplateView):
                         }
                     return render(request, 'vroom/index.html', params)
 
-                # params = {
-                #     'form': VroomForm(),
-                #     'resultFlg' : False,
-                #     'error_msg' : input_json,
-                #     }
-                # return render(request, 'vroom/index.html', params)
-                print(input_json)
+                params = {
+                    'form': VroomForm(),
+                    'resultFlg' : False,
+                    'error_msg' : input_json,
+                    }
+                return render(request, 'vroom/index.html', params)
     
             headers = {
                 'Content-type': 'application/json',
